@@ -1,0 +1,48 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // Keep firebase-admin out of the server bundle so the build doesn't need
+  // to symlink-bundle it (avoids EPERM symlink errors on some Windows setups
+  // during local Netlify packaging; remote Linux builds are unaffected).
+  serverExternalPackages: ["firebase-admin"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+      },
+    ],
+  },
+  // Security headers applied to all routes
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+  key: "Content-Security-Policy",
+  value:
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://public.tableau.com; " +
+    "style-src 'self' 'unsafe-inline'; " +
+    "img-src 'self' data: https:; " +
+    "font-src 'self' data: https:; " +
+    "connect-src 'self' https://firebasestorage.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com https://public.tableau.com; " +
+    "frame-src 'self' https://public.tableau.com; " +
+    "frame-ancestors 'self';",
+},
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+    ];
+  },
+};
+
+export default nextConfig;
