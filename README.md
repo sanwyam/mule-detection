@@ -4,7 +4,7 @@ An end-to-end machine learning system designed to detect **mule accounts** invol
 
 The detection model is built using **XGBoost**, supported by behavioral and graph-based features such as **transaction velocity, pass-through ratio, PageRank, hub score, and authority score**. An interactive **Tableau dashboard** provides visual insights into account risk distribution and suspicious transaction patterns over time.
 
-**Tech Stack:** Python · Pandas · NetworkX · XGBoost · Scikit-learn · Tableau
+**Tech Stack:** Python · Plotly · NetworkX · XGBoost · Scikit-learn · Tableau
 
 ## Problem Statement
 
