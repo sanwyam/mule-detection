@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mule Account Detection System
 
-## Getting Started
+An end-to-end machine learning system designed to detect **mule accounts** involved in suspicious financial activity. The system analyzes transaction behavior and network characteristics to identify accounts exhibiting patterns such as rapid fund movement, pass-through activity, fan-in, fan-out, and circular transactions.
 
-First, run the development server:
+The detection model is built using **XGBoost**, supported by behavioral and graph-based features such as **transaction velocity, pass-through ratio, PageRank, hub score, and authority score**. An interactive **Tableau dashboard** provides visual insights into account risk distribution and suspicious transaction patterns over time.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Tech Stack:** Python · Pandas · NetworkX · XGBoost · Scikit-learn · Tableau
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Problem Statement
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Financial fraud often involves **mule accounts** — accounts used to receive, transfer, or move illegally obtained funds while hiding the actual source of the money.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Traditional fraud detection systems often focus on individual transactions. However, mule accounts can exhibit suspicious behavior across **multiple transactions and interconnected accounts**.
 
-## Learn More
+This project aims to identify such accounts by analyzing:
 
-To learn more about Next.js, take a look at the following resources:
+- Account characteristics
+- Incoming and outgoing transaction behavior
+- Transaction velocity
+- Fund pass-through behavior
+- Account-to-account network relationships
+- Graph-based centrality measures
+- Known suspicious transaction patterns
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Solution
 
-## Deploy on Vercel
+The system follows an end-to-end pipeline:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+Transaction & Account Data
+          ↓
+Data Preprocessing
+          ↓
+Transaction Network Construction
+          ↓
+Behavioral Feature Engineering
+          ↓
+Graph-Based Feature Engineering
+          ↓
+XGBoost Classification Model
+          ↓
+Mule / Non-Mule Prediction
+          ↓
+Risk Categorization
+          ↓
+Tableau Dashboard
